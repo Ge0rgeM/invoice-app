@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
-import Header from '../Components/Header';
-import Body from '../Components/Body';
-import Footer from '../Components/Footer';
-import DownloadInvoice from '../Components/DownloadInvoice';
+import Header from '@/Header';
+import Body from '@/Body';
+import Footer from '@/Footer';
+import DownloadInvoice from '@/DownloadInvoice';
 
 export default function Invoice() {
     const [client, setClient] = useState({

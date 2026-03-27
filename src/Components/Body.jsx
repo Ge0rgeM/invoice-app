@@ -1,6 +1,6 @@
-import BilledTo from './BilledTo';
-import ItemTable from './ItemTable';
-import AutoCalculate from './AutoCalculate';
+import BilledTo from '@/BilledTo';
+import ItemTable from '@/ItemTable';
+import AutoCalculate from '@/AutoCalculate';
 import { useState } from 'react';
 
 export default function Body({bodyRef, client, setClient}){

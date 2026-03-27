@@ -1,3 +1,4 @@
+import logo from '#/Logo.png';
 export default function Header({ headerRef }) {
     const invoiceDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
     return (        
@@ -14,9 +15,8 @@ export default function Header({ headerRef }) {
           
           {/* Center: The Logo */}
           <div className="flex justify-center">
-            {/* Replace this src with your actual logo path */}
             <img 
-              src="../src/assets/Logo.png" 
+              src={logo} 
               alt="Company Logo" 
               className="w-100% object-contain" 
             />
