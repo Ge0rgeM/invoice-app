@@ -2,10 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export default function AutoCalculate({ items }) {
     const { t } = useTranslation();
-    console.log(items)
     // Auto-calculate totals
     const grandTotal = items.reduce((sum, item) => sum + (Number(item.quantity) * Number(String(item.price).replace(/,/g, ''))), 0); //Already Taxed
-    console.log('Grand Total:', grandTotal);  
     const taxRate = 0.18; // 18% tax
     const netAmount = grandTotal / (1 + taxRate); // Calculate net amount before tax
     const taxAmount = netAmount * taxRate; // Calculate tax amount based on subtotal

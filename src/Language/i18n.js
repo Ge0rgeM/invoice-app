@@ -10,6 +10,7 @@ const resources = {
         "tbilisi": "Tbilisi",
         //DownloadInvoice translations
         "download_pdf": "Download PDF",
+        "downloading...": "Downloading...",
         "client_name": "Client", // Placeholder text for client name input
         //Header translations
         "invoice": "Invoice",
@@ -40,7 +41,10 @@ const resources = {
         "rosaluna_llc": "Rosaluna LLC",
         "account_number": "Account Number",
         "swift": "SWIFT",
-        "thank_you": "Thank you for your business!"
+        "thank_you": "Thank you for your business!",
+        //Error messages and other translations
+        "something_went_wrong": "Something went wrong! Try again later."
+
     }
   },
   ka: {
@@ -51,6 +55,7 @@ const resources = {
         "tbilisi": "თბილისი",
         //DownloadInvoice translations
         "download_pdf": "PDF-ის ჩამოტვირთვა",
+        "downloading...": "ჩამოტვირთვა...",
         "client_name": "მყიდველი", // Placeholder text for client name input
         //Header translations
         "invoice": "ინვოისი",
@@ -81,7 +86,9 @@ const resources = {
         "rosaluna_llc": "Rosaluna LLC",
         "account_number": "ანგარიშის ნომერი",
         "swift": "SWIFT",
-        "thank_you": "გმადლობთ თანამშრომლობისთვის!"
+        "thank_you": "გმადლობთ თანამშრომლობისთვის!",
+        //Error messages and other translations
+        "something_went_wrong": "დაფიქსირდა შეცდომა! გთხოვთ სცადეთ მოგვიანებით."
     }
   }
 };

@@ -1,11 +1,24 @@
 import jsPDF from 'jspdf';
 import { toJpeg } from 'html-to-image';
-import { useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
 
 export default function DownloadInvoice({headerRef, bodyRef, footerRef, client}) {
     const { t } = useTranslation();
-    // --- 5. PDF GENERATION LOGIC ---
+    const [isDownloading, setIsDownloading] = useState(false);
+    const [buttonText, setButtonText] = useState('');
+        
+    useEffect(() => {
+            setButtonText(t('download_pdf')); // Ensure button text updates on language switch
+    }, [t]);
+    
+    // PDF GENERATION LOGIC ---
     const handleDownloadPdf = async () => {
+        if(isDownloading) 
+            return;
+    
+        setIsDownloading(true);
+        setButtonText(t('downloading...'));
         if (!headerRef.current || !bodyRef.current || !footerRef.current) return;
         
         try {
@@ -142,7 +155,11 @@ export default function DownloadInvoice({headerRef, bodyRef, footerRef, client})
                     pdf.save(`Invoice_${safeFileName}.pdf`);
             }
         } catch (error) {
-        console.error('Oops, something went wrong!', error);
+            alert(t('something_went_wrong'));
+            console.error('Oops, something went wrong!', error);
+        } finally {
+            setIsDownloading(false);
+            setButtonText(t('download_pdf'));
         }
     };
     return (
@@ -150,7 +167,7 @@ export default function DownloadInvoice({headerRef, bodyRef, footerRef, client})
             onClick={handleDownloadPdf}
             className="mb-6 px-6 py-2 bg-blue-600 text-white font-semibold rounded shadow hover:bg-blue-700 transition-colors cursor-pointer"
         >
-            {t('download_pdf')}
+            {buttonText}
         </button>
     )
 }

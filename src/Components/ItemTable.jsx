@@ -65,7 +65,6 @@ export default function ItemTable({ items, setItems }) {
                       onChange={(e) => {
                         const rawValue = e.target.value.replace(/,/g, '');
                         if (!isNaN(rawValue)) {
-                          console.log('Raw Price:', rawValue);
                           handleItemChange(item.id, 'price', rawValue);
                         }
                       }}
@@ -80,7 +79,6 @@ export default function ItemTable({ items, setItems }) {
                           }).format(Number(toInt));
                           
                           // Save the formatted string back to your state
-                          console.log('Formatted Price:', toInt, '->', formatted, '->', Number(formatted));
                           handleItemChange(item.id, 'price', formatted);
                         }
                       }}
