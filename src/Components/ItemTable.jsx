@@ -85,12 +85,12 @@ export default function ItemTable({ items, setItems }) {
                       
                       className="w-full text-right bg-transparent outline-none appearance-none"
                     />
-                    <span className="ml-1 text-gray-500 select-none">₾</span>
+                    <span className="ml-1 select-none">₾</span>
                   </div>
                 </td>
                 <td className="p-3 text-right text-gray-700">
                   {/* Auto-calculated row total */}
-                  {(Number(item.quantity) * Number(String(item.price).replace(/,/g, ''))).toFixed(2)}₾
+                  {(Number(item.quantity) * Number(String(item.price).replace(/,/g, ''))).toFixed(2)} ₾
                 </td>
                 <td className="p-2 text-center no-print">
                   {/* Delete Button - Hidden in PDF */}
@@ -110,7 +110,7 @@ export default function ItemTable({ items, setItems }) {
         {/* Add Row Button - Hidden in PDF */}
         <button 
           onClick={handleAddItem}
-          className="no-print mb-8 text-sm text-blue-600 hover:text-blue-800 font-semibold flex items-center cursor-pointer"
+          className="no-print mb-8 text-sm text-luxury-button hover:text-luxury-button-hovered font-semibold flex items-center cursor-pointer"
         >
           {t("add_line_item")}
         </button>

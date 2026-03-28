@@ -17,7 +17,7 @@ export default function Invoice() {
   const footerRef = useRef(null);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+    <div className="min-h-screen bg-luxury-brown p-8 flex flex-col items-center shadow-lg">
       {/*Toggle Language Button */}
       <ToggleLanguage />
       {/* Download Invoice Button */}

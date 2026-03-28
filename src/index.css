@@ -4,6 +4,10 @@
 @theme {
   --font-montserrat: "Montserrat", sans-serif;
   --font-playfair: "Playfair Display", serif;
+
+  --color-luxury-brown: #3D2314;
+  --color-luxury-button: #C6A67A;
+  --color-luxury-button-hovered: #AF8E5F;
 }
 /* body  *{
     border: 1px dotted red;

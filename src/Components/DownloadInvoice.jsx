@@ -165,7 +165,7 @@ export default function DownloadInvoice({headerRef, bodyRef, footerRef, client})
     return (
         <button 
             onClick={handleDownloadPdf}
-            className="mb-6 px-6 py-2 bg-blue-600 text-white font-semibold rounded shadow hover:bg-blue-700 transition-colors cursor-pointer"
+            className="mb-6 px-6 py-2 bg-luxury-button text-white font-semibold rounded shadow hover:bg-luxury-button-hovered transition-colors cursor-pointer"
         >
             {buttonText}
         </button>
