@@ -39,7 +39,7 @@ export default function ItemTable({ items, setItems }) {
                     value={item.description}
                     onChange={(e) => handleItemChange(item.id, 'description', e.target.value)}
                     placeholder={t("item_description_placeholder")}
-                    className="w-full bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1 outline-none transition-all"
+                    className="cursor-pointer w-full bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1 outline-none transition-all"
                   />
                 </td>
                 <td className="p-2">
@@ -48,7 +48,7 @@ export default function ItemTable({ items, setItems }) {
                     min="1"
                     value={item.quantity}
                     onChange={(e) => handleItemChange(item.id, 'quantity', Number(e.target.value))}
-                    className="w-full text-center bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1 outline-none transition-all"
+                    className="cursor-pointer w-full text-center bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1 outline-none transition-all"
                   />
                 </td>
                 <td className="p-1">
@@ -83,7 +83,7 @@ export default function ItemTable({ items, setItems }) {
                         }
                       }}
                       
-                      className="w-full text-right bg-transparent outline-none appearance-none"
+                      className="cursor-pointer w-full text-right bg-transparent outline-none appearance-none"
                     />
                     <span className="ml-1 select-none">₾</span>
                   </div>

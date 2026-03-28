@@ -18,7 +18,7 @@ export default function BilledTo({setClient, client}) {
             value={client.name}
             onChange={handleClientChange}
             placeholder={t("client_name_placeholder")}
-            className="w-full font-bold text-gray-900 bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1  transition-all outline-none"
+            className="cursor-pointer w-full font-bold text-gray-900 bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1  transition-all outline-none"
           />
           
           <textarea
@@ -27,7 +27,7 @@ export default function BilledTo({setClient, client}) {
             onChange={handleClientChange}
             placeholder={t("client_address_placeholder")}
             rows={1}
-            className="w-full text-sm text-gray-600 bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1  mt-1 transition-all outline-none resize-none overflow-hidden"
+            className="cursor-pointer w-full text-sm text-gray-600 bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1  mt-1 transition-all outline-none resize-none overflow-hidden"
           />
           
           <input
@@ -36,7 +36,7 @@ export default function BilledTo({setClient, client}) {
             value={client.email}
             onChange={handleClientChange}
             placeholder={t("client_email_placeholder")}
-            className="w-full text-sm text-gray-600 bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1  mt-1 transition-all outline-none"
+            className="cursor-pointer w-full text-sm text-gray-600 bg-transparent border border-transparent hover:border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 rounded px-2 py-1  mt-1 transition-all outline-none"
           />
         </div>
         </>

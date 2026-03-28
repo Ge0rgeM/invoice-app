@@ -17,7 +17,7 @@ export default function Invoice() {
   const footerRef = useRef(null);
 
   return (
-    <div className="min-h-screen bg-luxury-brown p-8 flex flex-col items-center shadow-lg">
+    <div className="w-full bg-luxury-brown p-8 flex flex-col items-center">
       {/*Toggle Language Button */}
       <ToggleLanguage />
       {/* Download Invoice Button */}
@@ -26,7 +26,7 @@ export default function Invoice() {
         The fixed width (w-[210mm] min-h-[297mm]) to mimic A4 paper.
         This ensures your Tailwind layout behaves predictably.
       */}
-      <div className="w-[210mm] h-max min-h-[297mm] bg-white shadow-lg text-gray-800 flex flex-col">
+      <div className="w-[210mm] h-max min-h-[297mm] bg-white shadow-paper text-gray-800 flex flex-col">
         {/* === PART 1: THE HEADER === */}
         <Header headerRef={headerRef} />
         {/* === PART 2: THE BODY === */}

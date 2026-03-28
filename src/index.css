@@ -8,6 +8,11 @@
   --color-luxury-brown: #3D2314;
   --color-luxury-button: #C6A67A;
   --color-luxury-button-hovered: #AF8E5F;
+
+  --shadow-paper: 0px 4px 16px rgba(17, 17, 26, 0.3), 0px 8px 32px rgba(17, 17, 26, 0.3);
+}
+#root{
+  background-color: var(--color-luxury-brown) !important;
 }
 /* body  *{
     border: 1px dotted red;

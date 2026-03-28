@@ -14,7 +14,8 @@ const resources = {
         "client_name": "Client", // Placeholder text for client name input
         //Header translations
         "invoice": "Invoice",
-        "invoice_number": "Invoice Number",
+        "invoice_number": "Invoice Number:",
+        "default_invoice_number": "ROS-2026-XXX", // Default value for invoice number input
         "date": "Date",
         //BilledTo translations
         "billed_to": "Billed To:",
@@ -59,7 +60,8 @@ const resources = {
         "client_name": "მყიდველი", // Placeholder text for client name input
         //Header translations
         "invoice": "ინვოისი",
-        "invoice_number": "ინვოისის ნომერი",
+        "invoice_number": "ინვოისის ნომერი:",
+        "default_invoice_number": "ROS-2026-XXX", // Default value for invoice number input
         "date": "თარიღი",
         //BilledTo translations
         "billed_to": "მყიდველი:",
