@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 /* Custom styles */
-body  *{
-    /* border: 1px dotted red; */
+@theme {
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-playfair: "Playfair Display", serif;
 }
+/* body  *{
+    border: 1px dotted red;
+} */

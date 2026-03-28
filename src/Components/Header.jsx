@@ -27,7 +27,7 @@ export default function Header({ headerRef }) {
           
           {/* Right: Company Details */}
           <div className="flex flex-col items-end text-right">
-            <h2 className="text-4xl font-bold text-gray-900">{t("rosaluna_llc")}</h2>
+            <h2 className="text-4xl font-bold text-gray-900 font-playfair">{t("rosaluna_llc")}</h2>
             <p className="text-sm text-gray-600 mt-2">{t("georgia")}</p>
             <p className="text-sm text-gray-600">{t("tbilisi")}</p>
           </div>
