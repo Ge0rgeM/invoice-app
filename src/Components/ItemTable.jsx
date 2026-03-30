@@ -4,14 +4,24 @@ export default function ItemTable({ items, setItems }) {
     const { t } = useTranslation();
     //Add a new empty row
     const handleAddItem = () => {
-      setItems([...items, { id: Date.now(), description: '', quantity: 1, price: 0 }]);
+      setItems([...items, { id: Date.now(), description: '', quantity: 1, price: 0, total: 0 }]);
     };
 
     //Update a specific field in a specific row
     const handleItemChange = (id, field, value) => {
-      setItems(items.map(item => 
-        item.id === id ? { ...item, [field]: value } : item
-      ));
+      setItems(items.map(item => {
+        if (item.id === id) {
+          if (field === 'price') {
+            return {...item, [field]: value, total: (Number(item.quantity) * Number(String(value).replace(/,/g, ''))).toFixed(2) };
+          }else if (field === 'quantity') {
+            return {...item, [field]: value, total: (Number(value) * Number(String(item.price).replace(/,/g, ''))).toFixed(2) };
+          } else {
+            return { ...item, [field]: value };
+          }
+        }        
+        
+        return item;
+      }));
     };
 
     //Remove a row

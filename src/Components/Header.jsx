@@ -2,10 +2,11 @@ import logo from '@/assets/Logo.png';
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
 
-export default function Header({ headerRef }) {
+export default function Header({ headerRef, setClient }) {
     const { t } = useTranslation();
     const [invoiceNumber, setInvoiceNumber] = useState(t("default_invoice_number"));
     const invoiceDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    
     return (        
         <div 
           ref={headerRef} 
@@ -30,14 +31,16 @@ export default function Header({ headerRef }) {
                   const onlyNumbers = userPart.replace(/\D/g, '').slice(0, 3);
                   // 4. Glue the invincible prefix back onto their numbers!
                   setInvoiceNumber(`ROS-2026-${onlyNumbers}`);
+                  setClient(prev => ({ ...prev, invoice_number: invoiceNumber })); // Update parent state with invoice number
                 }}
-
+                
                 onBlur={() => {
                   // 5. When they click away, ensure it pads to 3 digits (e.g., '1' becomes '001')
                   const currentNumbers = (invoiceNumber || "").replace("ROS-2026-", "");
                   if (currentNumbers.length > 0) {
                     const padded = currentNumbers.padStart(3, "0");
                     setInvoiceNumber(`ROS-2026-${padded}`);
+                    setClient(prev => ({ ...prev, invoice_number: invoiceNumber })); // Update parent state with invoice number
                   }
                 }}
                 

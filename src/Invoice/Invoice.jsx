@@ -4,22 +4,27 @@ import Body from '@/Components/Body';
 import Footer from '@/Components/Footer';
 import DownloadInvoice from '@/Components/DownloadInvoice';
 import ToggleLanguage from '@/Components/ToggleLanguage';
+import SaveInvoice from '@/Components/SaveInvoice';
 
 export default function Invoice() {
-    const [client, setClient] = useState({
-        name: '',
-        address: '',
-        email: ''
-    });
+  //State for the line items
+  const [items, setItems] = useState([]);
+  const [client, setClient] = useState({
+      name: '',
+      address: '',
+      email: '',
+      invoice_number: '',
+  });
 
   const headerRef = useRef(null);
   const bodyRef = useRef(null);
-  const footerRef = useRef(null);
+  const footerRef = useRef(null); 
 
   return (
     <div className="w-full bg-luxury-brown p-8 flex flex-col items-center">
       {/*Toggle Language Button */}
       <ToggleLanguage />
+      <SaveInvoice client={client} items={items} />
       {/* Download Invoice Button */}
       <DownloadInvoice headerRef={headerRef} bodyRef={bodyRef} footerRef={footerRef} client={client} />
       {/*Invoice Container 
@@ -28,9 +33,9 @@ export default function Invoice() {
       */}
       <div className="w-[210mm] h-max min-h-[297mm] bg-white shadow-paper text-gray-800 flex flex-col">
         {/* === PART 1: THE HEADER === */}
-        <Header headerRef={headerRef} />
+        <Header headerRef={headerRef} setClient={setClient} />
         {/* === PART 2: THE BODY === */}
-        <Body bodyRef={bodyRef} client={client} setClient={setClient} />
+        <Body bodyRef={bodyRef} client={client} setClient={setClient} items={items} setItems={setItems} />
         {/* === 3. FOOTER SECTION (Stuck to bottom on screen and PDF) === */}
         <Footer footerRef={footerRef} />
       </div>
