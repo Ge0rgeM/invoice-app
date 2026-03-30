@@ -6,7 +6,7 @@ import path from 'path'
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
-    base: '/invoice-app/',
+    base: './',
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
