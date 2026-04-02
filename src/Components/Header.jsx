@@ -1,11 +1,11 @@
 import logo from '@/assets/Logo.png';
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
+import { checkInvoiceNumber } from '@/ApiRequests/checkInvoiceNumber.js';
 
-export default function Header({ headerRef, setClient }) {
+export default function Header({ headerRef, client, setClient, editing }) {
     const { t } = useTranslation();
-    const [invoiceNumber, setInvoiceNumber] = useState(t("default_invoice_number"));
-    const invoiceDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    const [invoiceNumber, setInvoiceNumber] = useState(client.invoice_number); // Default prefix for invoice numbers
     
     return (        
         <div 
@@ -17,7 +17,8 @@ export default function Header({ headerRef, setClient }) {
             <h1 className="text-4xl font-bold text-gray-900">{t("invoice")}</h1>
             <div className="flex flex-row items-center">
               <p className="text-sm text-gray-500 whitespace-nowrap">{t("invoice_number")}&nbsp;</p>
-              <input
+              {!editing ? (
+                              <input
                 type="text"
                 name="invoice_number"
                 // 1. If the state is empty, force it to show the prefix to start
@@ -30,8 +31,13 @@ export default function Header({ headerRef, setClient }) {
                   // 3. Strip out any letters/symbols and limit it to strictly 3 numbers
                   const onlyNumbers = userPart.replace(/\D/g, '').slice(0, 3);
                   // 4. Glue the invincible prefix back onto their numbers!
-                  setInvoiceNumber(`ROS-2026-${onlyNumbers}`);
-                  setClient(prev => ({ ...prev, invoice_number: invoiceNumber })); // Update parent state with invoice number
+                  const finalInvoiceString = `ROS-2026-${String(onlyNumbers)}`;
+                  if (checkInvoiceNumber(finalInvoiceString)) { // Check if the invoice number is unique
+                    setInvoiceNumber(finalInvoiceString);
+                    setClient(prev => ({ ...prev, invoice_number: finalInvoiceString })); // Update parent state with invoice number
+                  } else {
+                    alert("This invoice number is already taken. Please choose a different one.");
+                  }
                 }}
                 
                 onBlur={() => {
@@ -39,8 +45,13 @@ export default function Header({ headerRef, setClient }) {
                   const currentNumbers = (invoiceNumber || "").replace("ROS-2026-", "");
                   if (currentNumbers.length > 0) {
                     const padded = currentNumbers.padStart(3, "0");
-                    setInvoiceNumber(`ROS-2026-${padded}`);
-                    setClient(prev => ({ ...prev, invoice_number: invoiceNumber })); // Update parent state with invoice number
+                    const finalInvoiceString = `ROS-2026-${padded}`;
+                    if (checkInvoiceNumber(finalInvoiceString)) { // Check if the invoice number is unique
+                      setInvoiceNumber(finalInvoiceString);
+                      setClient(prev => ({ ...prev, invoice_number: finalInvoiceString })); // Update parent state with invoice number
+                    } else {
+                      alert("This invoice number is already taken. Please choose a different one.");
+                    }
                   }
                 }}
                 
@@ -52,8 +63,11 @@ export default function Header({ headerRef, setClient }) {
                   rounded transition-all outline-none
                 "
               />
+              ):(
+                <p className="text-sm text-gray-500 px-1 py-0.5">{client.invoice_number}</p>
+              )}
             </div>
-            <p className="text-sm text-gray-500">{t("date")}: {invoiceDate}</p>
+            <p className="text-sm text-gray-500">{t("date")}: {client.invoice_date}</p>
           </div>
           
           {/* Center: The Logo */}

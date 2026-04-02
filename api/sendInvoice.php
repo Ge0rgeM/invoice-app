@@ -11,10 +11,26 @@ error_log('Data: ' . print_r($data, true));
 // Check if the required data actually exists
 if (!empty($data['invoice_number'])) {
     try {
+        if (!preg_match('/^ROS-2026-[0-9]{3}$/', $data['invoice_number'])) {
+            http_response_code(400); // Bad Request
+            echo json_encode([
+                "status" => "error", 
+                "message" => "Invalid invoice format. It must be exactly ROS-2026-XXX (e.g., ROS-2026-001)."
+            ]);
+            exit(); // CRITICAL: Stop the script dead in its tracks right here
+        }
+
         // The PDO Prepared Statement to safely insert the invoice data into the database
         $stmt = $pdo->prepare("
             INSERT INTO saved_invoices (invoice_number, client_firstname, client_email, client_address, total_amount, invoice_date, full_invoice_data) 
             VALUES (:invoice_number, :client_firstname, :client_email, :client_address, :total_amount, :invoice_date, :full_invoice_data)
+            ON DUPLICATE KEY UPDATE 
+                client_firstname = VALUES(client_firstname),
+                client_email = VALUES(client_email),
+                client_address = VALUES(client_address),
+                total_amount = VALUES(total_amount),
+                invoice_date = VALUES(invoice_date),
+                full_invoice_data = VALUES(full_invoice_data)
         ");
 
         // Execute the query, slotting the variables safely into the database

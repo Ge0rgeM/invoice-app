@@ -11,7 +11,7 @@ export default function ToggleLanguage({ }) {
     return (
         <button 
             onClick={toggleLanguage}
-            className="mb-4 px-4 py-2 bg-luxury-button text-white rounded hover:bg-luxury-button-hovered transition cursor-pointer"
+            className="mb-6 px-4 py-2 bg-luxury-button text-white rounded hover:bg-luxury-button-hovered transition cursor-pointer"
         >
             {t('switch_lang')}
         </button>

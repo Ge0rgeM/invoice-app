@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { formatNumber } from '@/utils/formatNumber.js';
 
 export default function ItemTable({ items, setItems }) {
     const { t } = useTranslation();
@@ -83,10 +84,7 @@ export default function ItemTable({ items, setItems }) {
                       onBlur={(e) => {
                         const toInt = Number(String(e.target.value).replace(/,/g, ''));
                         if (toInt) {
-                          const formatted = new Intl.NumberFormat('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                          }).format(Number(toInt));
+                          const formatted = formatNumber(toInt);
                           
                           // Save the formatted string back to your state
                           handleItemChange(item.id, 'price', formatted);
@@ -100,7 +98,7 @@ export default function ItemTable({ items, setItems }) {
                 </td>
                 <td className="p-3 text-right text-gray-700">
                   {/* Auto-calculated row total */}
-                  {(Number(item.quantity) * Number(String(item.price).replace(/,/g, ''))).toFixed(2)} ₾
+                  {formatNumber((Number(item.quantity) * Number(String(item.price).replace(/,/g, ''))))} ₾
                 </td>
                 <td className="p-2 text-center no-print">
                   {/* Delete Button - Hidden in PDF */}

@@ -5,15 +5,18 @@ import Footer from '@/Components/Footer';
 import DownloadInvoice from '@/Components/DownloadInvoice';
 import ToggleLanguage from '@/Components/ToggleLanguage';
 import SaveInvoice from '@/Components/SaveInvoice';
+import { useTranslation } from "react-i18next";
 
 export default function Invoice() {
+  const { t } = useTranslation();
   //State for the line items
   const [items, setItems] = useState([]);
   const [client, setClient] = useState({
       name: '',
       address: '',
       email: '',
-      invoice_number: '',
+      invoice_number: t("default_invoice_number"),
+      invoice_date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
   });
 
   const headerRef = useRef(null);
@@ -33,7 +36,7 @@ export default function Invoice() {
       */}
       <div className="w-[210mm] h-max min-h-[297mm] bg-white shadow-paper text-gray-800 flex flex-col">
         {/* === PART 1: THE HEADER === */}
-        <Header headerRef={headerRef} setClient={setClient} />
+        <Header headerRef={headerRef} client={client} setClient={setClient} editing={false} />
         {/* === PART 2: THE BODY === */}
         <Body bodyRef={bodyRef} client={client} setClient={setClient} items={items} setItems={setItems} />
         {/* === 3. FOOTER SECTION (Stuck to bottom on screen and PDF) === */}

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { formatNumber } from '@/utils/formatNumber.js';
 
 export default function AutoCalculate({ items }) {
     const { t } = useTranslation();
@@ -13,19 +14,19 @@ export default function AutoCalculate({ items }) {
           <div className="w-1/2">
             <div className="flex justify-between py-2 border-b">
               <span className="font-semibold text-gray-600">{t("net_amount")}</span>
-              <span>{netAmount.toFixed(2)} ₾</span>
+              <span>{formatNumber(netAmount)} ₾</span>
             </div>
             <div className="flex justify-between py-2 border-b">
               <span className="font-semibold text-gray-600">{t("tax_18")}</span>
-              <span>{taxAmount.toFixed(2)} ₾</span>
+              <span>{formatNumber(taxAmount)} ₾</span>
             </div>
             <div className="flex justify-between py-2 border-b">
               <span className="font-semibold text-gray-600">{t("subtotal")}</span>
-              <span>{grandTotal.toFixed(2)} ₾</span>
+              <span>{formatNumber(grandTotal)} ₾</span>
             </div>
             <div className="flex justify-between py-3 text-lg font-bold">
               <span>{t("total_due")}</span>
-              <span>{grandTotal.toFixed(2)} ₾</span>
+              <span>{formatNumber(grandTotal)} ₾</span>
             </div>
           </div>
         </div>
