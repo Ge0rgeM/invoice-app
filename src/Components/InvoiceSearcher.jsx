@@ -4,7 +4,22 @@ import { formatNumber } from '@/utils/formatNumber.js';
 import { fetchAllInvoices } from '@/ApiRequests/fetchAllInvoices';
 import { handleSelectInvoice } from '@/ApiRequests/handleSelectInvoice.js';
 
-export default function InvoiceSearcher({ setPendingInvoiceToLoad, searchTerm, setSearchTerm, isDropdownOpen, setIsDropdownOpen, loading, setLoading, error, setError, onLoadInvoice, setShowSaveModal, isDirty, invoiceList, setInvoiceList }) {  
+export default function InvoiceSearcher({ 
+  setPendingInvoiceToLoad, 
+  searchTerm, setSearchTerm, 
+  isDropdownOpen, 
+  setIsDropdownOpen, 
+  loading, 
+  setLoading, 
+  setErrorMessage, 
+  setError, 
+  onLoadInvoice, 
+  setShowSaveModal, 
+  isDirty, 
+  invoiceList, 
+  setInvoiceList, 
+  t
+  }) {  
   const dropdownRef = useRef(null);
   
   // Listen for clicks outside the dropdown to close it
@@ -25,13 +40,19 @@ export default function InvoiceSearcher({ setPendingInvoiceToLoad, searchTerm, s
   }, []);
 
   // 1. Fetch the lightweight list of all invoices when the page loads
- useEffect(() => {
-  fetchAllInvoices()
-    .then((actualInvoices) => {
-      setInvoiceList(actualInvoices);
-    })
-    .catch((error) => console.error(error));
-}, []);
+  useEffect(() => {
+      fetchAllInvoices(setLoading)
+        .then((actualInvoices) => {
+          // Safely set the list if data was returned
+          if (actualInvoices) {
+            setInvoiceList(actualInvoices);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching invoices:", error.message);
+          setErrorMessage(t(`errors.${error.message}`));
+        });
+    }, []);
 
   // 2. Filter the list based on what the user types
   const filteredInvoices = invoiceList.filter(inv => 
@@ -75,7 +96,7 @@ export default function InvoiceSearcher({ setPendingInvoiceToLoad, searchTerm, s
                       setShowSaveModal(true);
                     } else {
                       // It's clean, so just load it immediately!
-                      handleSelectInvoice(nextInvoice, setSearchTerm, setIsDropdownOpen, setLoading, setError, onLoadInvoice);
+                      handleSelectInvoice(nextInvoice, setSearchTerm, setIsDropdownOpen, setLoading, setErrorMessage, onLoadInvoice);
                     }
                   }}
                   className="p-2 hover:bg-blue-50 cursor-pointer border-b last:border-b-0 w-full flex "
@@ -84,7 +105,7 @@ export default function InvoiceSearcher({ setPendingInvoiceToLoad, searchTerm, s
                     <span className="font-bold text-gray-800">{inv.invoice_number}</span>
                     <span className="text-gray-500 text-sm ml-2">{inv.client_firstname || 'Unknown Client'}</span>
                   </div>
-                  <div className='w-[18%]'>
+                  <div className='w-[18%] flex flex-col justify-center items-end pr-3'>
                     {inv.total_amount > 0 ? (
                         <span className="text-red-500 text-sm">{formatNumber(inv.total_amount)} ₾</span>
                       ) : (
@@ -102,8 +123,8 @@ export default function InvoiceSearcher({ setPendingInvoiceToLoad, searchTerm, s
           </div>
         )}
       </div>
-      {loading && <LoadingWindow text="Fetching data from server..." />}
-      {error && <p className="text-red-500 mt-3 text-sm font-medium">{error}</p>}
+      {/* {loading && <LoadingWindow text="Fetching data from server..." />}
+      {error && <p className="text-red-500 mt-3 text-sm font-medium">{error}</p>} */}
     </div>
   );
 }

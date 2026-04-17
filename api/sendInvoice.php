@@ -15,7 +15,8 @@ if (!empty($data['invoice_number'])) {
             http_response_code(400); // Bad Request
             echo json_encode([
                 "status" => "error", 
-                "message" => "Invalid invoice format. It must be exactly ROS-2026-XXX (e.g., ROS-2026-001)."
+                "message" => "Invalid invoice format. It must be exactly ROS-2026-XXX (e.g., ROS-2026-001).",
+                "error_code" => "invalid_invoice_number"
             ]);
             exit(); // CRITICAL: Stop the script dead in its tracks right here
         }
@@ -46,15 +47,26 @@ if (!empty($data['invoice_number'])) {
 
         // Tell React it was successful
         http_response_code(201); // 201 means "Created"
-        echo json_encode(["status" => "success", "message" => "Invoice safely stored!"]);
+        echo json_encode([
+            "status" => "success", 
+            "message" => "Invoice safely stored!"
+        ]);
 
     } catch(PDOException $e) {
         // If the database fails, tell React exactly why
         http_response_code(500);
-        echo json_encode(["status" => "error", "message" => "Database error: " . $e->getMessage()]);
+        echo json_encode([
+            "status" => "error", 
+            "message" => "Database error: " . $e->getMessage(),
+            "error_code" => "db_error"
+        ]);
     }
 } else {
     // If React sent empty data
     http_response_code(400);
-    echo json_encode(["status" => "error", "message" => "Invoice number is missing."]);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Invoice number is missing.",
+        "error_code" => "missing_invoice_number"
+    ]);
 }

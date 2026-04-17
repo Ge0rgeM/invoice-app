@@ -50,47 +50,71 @@ const resources = {
   },
   ka: {
     translation: {
-        "switch_lang": "EN", // Text for the button to switch TO English
-        //General translations
+      "switch_lang": "EN", // Text for the button to switch TO English
+      //General translations
+      "generic": {
         "georgia": "საქართველო",
         "tbilisi": "თბილისი",
-        //DownloadInvoice translations
-        "download_pdf": "PDF-ის ჩამოტვირთვა",
-        "downloading...": "ჩამოტვირთვა...",
-        "client_name": "მყიდველი", // Placeholder text for client name input
-        //Header translations
-        "invoice": "ინვოისი",
-        "invoice_number": "ინვოისის ნომერი:",
-        "default_invoice_number": "ROS-2026-XXX", // Default value for invoice number input
-        "date": "თარიღი",
-        //BilledTo translations
-        "billed_to": "მყიდველი:",
-        "client_name_placeholder": "მყიდველის სახელი...", // Placeholder text for client name input
-        "client_address_placeholder": "მყიდველის მისამართი...", // Placeholder text for client address textarea
-        "client_email_placeholder": "მყიდველის ელ.ფოსტა...", // Placeholder text for client email input
-        //ItemTable translations
-        "item_description": "ნივთის აღწერა",
-        "quantity": "რაოდენობა",
-        "price": "ფასი",
-        "total": "ჯამი",
-        "add_line_item": "+ დამატება", // Text for the button to add a new line item
-        "item_description_placeholder": "ნივთის აღწერა...", // Placeholder text for item description input
-        //AutoCalculate translations
+        "close": "დახურვა",
+        "save": "შენახვა",
+        "saving": "მიმდინარეობს შენახვა...",
+        "loading": "მიმდინარეობს ჩატვირთვა...",
+        "page_refresh": "გადატვირთვა"
+      },
+      // Page Navigations
+      "create_invoice": "ინვოისის შექმნა",
+      "load_invoice": "ინვოისის არჩევა",
+      //DownloadInvoice translations
+      "download_pdf": "PDF-ის ჩამოტვირთვა",
+      "downloading...": "ჩამოტვირთვა...",
+      "client_name": "მყიდველი", // Placeholder text for client name input
+      //Header translations
+      "invoice": "ინვოისი",
+      "invoice_number": "ინვოისის ნომერი:",
+      "default_invoice_number": "ROS-2026-XXX", // Default value for invoice number input
+      "date": "თარიღი",
+      //BilledTo translations
+      "billed_to": "მყიდველი:",
+      "client_name_placeholder": "მყიდველის სახელი...", // Placeholder text for client name input
+      "client_address_placeholder": "მყიდველის მისამართი...", // Placeholder text for client address textarea
+      "client_email_placeholder": "მყიდველის ელ.ფოსტა...", // Placeholder text for client email input
+      //ItemTable translations
+      "item_description": "ნივთის აღწერა",
+      "quantity": "რაოდენობა",
+      "price": "ფასი",
+      "total": "ჯამი",
+      "add_line_item": "+ დამატება", // Text for the button to add a new line item
+      "item_description_placeholder": "ნივთის აღწერა...", // Placeholder text for item description input
+      //AutoCalculate translations
+      "calculations" : {
         "net_amount": "ღირებულება (Net)",
         "tax_18": "დღგ (18%)",
         "subtotal": "ჯამი",
         "total_due": "სულ გადასახდელი",
-        //Footer translations
-        "payment_instructions": "საგადახდო რეკვიზიტები",
-        "bank_name": "ბანკის სახელი",
-        "bank_of_Georgia": "საქართველოს ბანკი",
-        "account_name": "მიმღების სახელი",
-        "rosaluna_llc": "Rosaluna LLC",
-        "account_number": "ანგარიშის ნომერი",
-        "swift": "SWIFT",
-        "thank_you": "გმადლობთ თანამშრომლობისთვის!",
-        //Error messages and other translations
-        "something_went_wrong": "დაფიქსირდა შეცდომა! გთხოვთ სცადეთ მოგვიანებით."
+      },
+      //Footer translations
+      "payment_instructions": "საგადახდო რეკვიზიტები",
+      "bank_name": "ბანკის სახელი",
+      "bank_of_Georgia": "საქართველოს ბანკი",
+      "account_name": "მიმღების სახელი",
+      "rosaluna_llc": "Rosaluna LLC",
+      "account_number": "ანგარიშის ნომერი",
+      "swift": "SWIFT",
+      "thank_you": "გმადლობთ თანამშრომლობისთვის!",
+      //Error messages and other translations
+      "fetching_next_invoice_number": "მიმდინარეობს ინვოისის ნომრის გენერირება...",
+      "errors": {
+        "failed_to_fetch": "სერვერთან დაკავშირება ვერ მოხერხდა. გთხოვთ, შეამოწმეთ ინტერნეტ კავშირი ან სცადეთ მოგვიანებით.",
+        "something_went_wrong": "დაფიქსირდა შეცდომა! გთხოვთ სცადეთ მოგვიანებით.",
+        "failed_to_connect_db": "სერვერთან დაკავშირება ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით.",
+        "db_error": "სერვერის პრობლემა. გთხოვთ, სცადეთ მოგვიანებით.",
+        "failed_to_generate_invoice_number": "ინვოისის ნომრის გენერირება ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით.",
+        "error": "შეცდომა!",
+        "missing_invoice_number": "ინვოისის ნომერი არ არის მითითებული. გთხოვთ, შეიყვანეთ ინვოისის ნომერი.",
+        "failed_to_fetch_invoices": "ინვოისების ჩამოტვირთვა ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით.",
+        "invoice_not_found": "ინვოისი ვერ მოიძებნა. გთხოვთ, შეამოწმეთ ინვოისის ნომერი და სცადეთ ისევ.",
+        "invalid_invoice_number": "ინვოისის ნომერი არასწორია. გთხოვთ, შეიყვანეთ სწორი ფორმატის ინვოისის ნომერი (ROS-2026-XXX)."
+      }
     }
   }
 };

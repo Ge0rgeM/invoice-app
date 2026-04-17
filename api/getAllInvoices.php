@@ -32,7 +32,8 @@ catch (PDOException $e) {
     echo json_encode([
         "status" => "error", 
         "type" => "Database Error",
-        "message" => "Could not fetch invoices: " . $e->getMessage()
+        "message" => "Could not fetch invoices: " . $e->getMessage(),
+        "error_code" => "failed_to_fetch_invoices"
     ]);
 } 
 // CATCH LEVEL 2: General Application Errors
@@ -41,7 +42,8 @@ catch (Exception $e) {
     echo json_encode([
         "status" => "error", 
         "type" => "Application Error",
-        "message" => $e->getMessage()
+        "message" => $e->getMessage(),
+        "error_code" => "failed_to_fetch_invoices"
     ]);
 } 
 // CATCH LEVEL 3: Fatal PHP Crashes (e.g., syntax errors in required files)
@@ -51,7 +53,8 @@ catch (Throwable $t) {
         "status" => "error", 
         "type" => "Critical Server Error",
         "message" => "A critical error occurred while fetching invoices.",
-        "debug" => $t->getMessage() // You can remove this debug line when you go live!
+        "debug" => $t->getMessage(), // You can remove this debug line when you go live!
+        "error_code" => "failed_to_fetch_invoices"
     ]);
 }
 ?>

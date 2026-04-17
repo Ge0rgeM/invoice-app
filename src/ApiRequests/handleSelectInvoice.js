@@ -1,8 +1,8 @@
-export const handleSelectInvoice = async (invoiceToLoad, setSearchTerm, setIsDropdownOpen, setLoading, setError, onLoadInvoice) => {
+export const handleSelectInvoice = async (invoiceToLoad, setSearchTerm, setIsDropdownOpen, setLoading, setErrorMessage, onLoadInvoice) => {
     setSearchTerm(invoiceToLoad);
     setIsDropdownOpen(false); // Close the menu
     setLoading(true);
-    setError(null);
+    setErrorMessage(null);
     
     try {
       // Now fetch the HEAVY data for just this one invoice
@@ -13,10 +13,12 @@ export const handleSelectInvoice = async (invoiceToLoad, setSearchTerm, setIsDro
         const parsedReactState = JSON.parse(JSON.stringify(result.data));
         onLoadInvoice(parsedReactState); // Send it up to App.jsx to populate the form
       } else {
-        setError(result.message || "Could not load full invoice details.");
+        throw new Error(result.error_code)
+        setErrorMessage(result.message || "Could not load full invoice details.");
       }
     } catch (err) {
-      setError("Failed to connect to the database.");
+      throw new Error(err.message)
+      setErrorMessage("Failed to connect to the database.");
       alert(err);
     } finally {
       setSearchTerm('');

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from '@/Components/Header';
 import Body from '@/Components/Body';
 import Footer from '@/Components/Footer';
@@ -6,10 +6,15 @@ import DownloadInvoice from '@/Components/DownloadInvoice';
 import ToggleLanguage from '@/Components/ToggleLanguage';
 import SaveInvoice from '@/Components/SaveInvoice';
 import { useTranslation } from "react-i18next";
+import { fetchNextInvoiceNumber } from '@/ApiRequests/fetchNextInvoiceNumber.js';
+import ErrorWindow from '@/Components/ErrorWindow';
+import LoadingWindow from '@/Components/LoadingWindow';
 
 export default function Invoice() {
-  const { t } = useTranslation();
-  //State for the line items
+  const { t } = useTranslation(); //Transaltion hook from react-i18next
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState(t("loading"));
   const [items, setItems] = useState([]);
   const [client, setClient] = useState({
       name: '',
@@ -23,11 +28,34 @@ export default function Invoice() {
   const bodyRef = useRef(null);
   const footerRef = useRef(null); 
 
+  useEffect(() => {
+    fetchNextInvoiceNumber(setLoading, setLoadingText, t)
+      .then((nextNumber) => {
+        if (nextNumber) {
+          setClient(prev => ({ ...prev, invoice_number: nextNumber }));
+        }
+      })
+      .catch((error) => {
+        let finalMessage = error.message || "Failed to fetch";
+        if (finalMessage === "Failed to fetch") {
+          finalMessage = t("errors.failed_to_fetch"); // Use the translated message for "Failed to fetch"
+        }
+        setErrorMessage(finalMessage || t("something_went_wrong"));
+        setLoading(false); // Ensure loading is stopped after the fetch attempt, regardless of outcome
+      });
+  }, []);
+
   return (
     <div className="w-full bg-luxury-brown p-8 flex flex-col items-center">
       {/*Toggle Language Button */}
       <ToggleLanguage />
-      <SaveInvoice client={client} items={items} />
+      <SaveInvoice 
+        client={client} 
+        items={items} 
+        setErrorMessage={setErrorMessage} 
+        setLoadingWindow={setLoading} 
+        setLoadingText={setLoadingText} 
+        t={t}/>
       {/* Download Invoice Button */}
       <DownloadInvoice headerRef={headerRef} bodyRef={bodyRef} footerRef={footerRef} client={client} />
       {/*Invoice Container 
@@ -42,6 +70,14 @@ export default function Invoice() {
         {/* === 3. FOOTER SECTION (Stuck to bottom on screen and PDF) === */}
         <Footer footerRef={footerRef} />
       </div>
+      
+      {/* Floating Popups */}
+      {loading && <LoadingWindow text={loadingText} />}
+      <ErrorWindow 
+        message={errorMessage} 
+        onClose={() => setErrorMessage('')} // Empties the message, closing the modal
+        t={t}
+      />
     </div>
   );
 }

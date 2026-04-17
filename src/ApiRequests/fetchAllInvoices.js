@@ -1,13 +1,33 @@
-export const fetchAllInvoices = async () => {
-    try {
-        // Change to your InfinityFree domain when deploying
-        const response = await fetch('http://localhost:8000/getAllInvoices.php');
-        const result = await response.json();
-        
-        if (response.ok && result.status === 'success') {
-            return result.data; // Return the list of invoices
+export const fetchAllInvoices = async (setLoading) => {
+    setLoading(true)
+    // 1. Fetch the data (No try/catch wrapper!)
+    const response = await fetch('http://localhost:8000/getAllInvoices.php');
+    
+    // 2. Catch server crashes or CORS issues
+    if (!response.ok) {
+        try {
+            const errorData = await response.json();
+            if (errorData.error_code) {
+                setLoading(false)
+                throw new Error(errorData.error_code); 
+            }
+        } catch (e) {
+            setLoading(false)
+            throw new Error("failed_to_fetch");
         }
-    } catch (err) {
-        console.error("Failed to load invoice list", err);
     }
+
+    // 3. Parse the JSON response
+    const result = await response.json();
+    
+    // 4. Catch handled PHP errors (e.g., table doesn't exist, query failed)
+    if (result.status === 'error') {
+        // You can add "ERR_FETCH_FAILED" to your ka.json file
+        setLoading(false)
+        throw new Error(result.error_code || "failed_to_fetch"); 
+    }
+
+    // 5. If everything is perfect, return the array of invoices
+    setLoading(false)
+    return result.data; 
 };

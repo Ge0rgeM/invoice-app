@@ -8,6 +8,8 @@ import SaveInvoice from '@/Components/SaveInvoice';
 import InvoiceSearcher from '../Components/InvoiceSearcher';
 import { useTranslation } from "react-i18next";
 import { SavingWindow } from '@/Components/SavingWindow';
+import LoadingWindow from '@/Components/LoadingWindow';
+import ErrorWindow from '@/Components/ErrorWindow';
 
 export default function SearchInvoice() {
   const { t } = useTranslation(); 
@@ -35,7 +37,9 @@ export default function SearchInvoice() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loadingText, setLoadingText] = useState(t("generic.loading"));
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('')
   const [pendingInvoiceToLoad, setPendingInvoiceToLoad] = useState(null);
 
   const headerRef = useRef(null);
@@ -94,7 +98,7 @@ export default function SearchInvoice() {
           setSearchTerm={setSearchTerm}
           setIsDropdownOpen={setIsDropdownOpen}
           setLoading={setLoading}
-          setError={setError}
+          setErrorMessage={setErrorMessage}
           pendingInvoiceToLoad={pendingInvoiceToLoad}
           setPendingInvoiceToLoad={setPendingInvoiceToLoad}
         />
@@ -110,6 +114,10 @@ export default function SearchInvoice() {
                   items={items} 
                   setInitialClient={setInitialClient}
                   setInitialItems={setInitialItems}
+                  t={t}
+                  setErrorMessage={setErrorMessage}
+                  setLoadingWindow={setLoading}
+                  setLoadingText={setLoadingText}
                 />
             </div>
             {/* Download Invoice Button */}
@@ -126,11 +134,10 @@ export default function SearchInvoice() {
               setSearchTerm={setSearchTerm}
               isDropdownOpen={isDropdownOpen}
               setIsDropdownOpen={setIsDropdownOpen}
-              loading={loading}
               setLoading={setLoading}
-              error={error}
-              setError={setError}
+              setErrorMessage={setErrorMessage}
               setPendingInvoiceToLoad={setPendingInvoiceToLoad}
+              t={t}
               />
         </div>
 
@@ -146,6 +153,14 @@ export default function SearchInvoice() {
         {/* === 3. FOOTER SECTION (Stuck to bottom on screen and PDF) === */}
         <Footer footerRef={footerRef} />
       </div>
+
+      {/* Floating Popups */}
+      {loading && <LoadingWindow text={loadingText} />}
+      <ErrorWindow 
+        message={errorMessage} 
+        onClose={() => setErrorMessage('')} // Empties the message, closing the modal
+        t={t}
+      />
     </div>
   );
 }

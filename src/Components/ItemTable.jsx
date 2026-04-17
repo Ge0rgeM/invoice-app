@@ -65,28 +65,39 @@ export default function ItemTable({ items, setItems }) {
                 <td className="p-1">
                   <div className="flex items-center w-full bg-transparent border border-transparent hover:border-gray-200 focus-within:border-blue-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-200 rounded px-2 py-1 transition-all">
                     <input
-                      type="text" // <-- Changed to text!
-                      inputMode="decimal" // <-- Keeps the number keyboard on mobile
+                      type="text" 
+                      inputMode="decimal" 
                       placeholder="0.00"
                       
                       // 1. What the input shows:
                       value={item.price === 0 ? '' : item.price}
                       
-                      // 2. What happens when they type (removes commas to save pure numbers to your state):
+                      // 2. What happens when they type:
                       onChange={(e) => {
                         const rawValue = e.target.value.replace(/,/g, '');
-                        if (!isNaN(rawValue)) {
+                        
+                        // ALLOW: Valid numbers, empty strings (for backspacing), AND a lone minus sign
+                        if (!isNaN(rawValue) || rawValue === '-' || rawValue === '') {
                           handleItemChange(item.id, 'price', rawValue);
                         }
                       }}
 
-                      // When you click out of the box, format it with commas:
+                      // 3. When you click out of the box:
                       onBlur={(e) => {
-                        const toInt = Number(String(e.target.value).replace(/,/g, ''));
-                        if (toInt) {
-                          const formatted = formatNumber(toInt);
-                          
-                          // Save the formatted string back to your state
+                        const rawValue = String(e.target.value).replace(/,/g, '');
+                        
+                        // Cleanup: If they typed just a "-" and clicked away, wipe the field clean
+                        if (rawValue === '-') {
+                          handleItemChange(item.id, 'price', '');
+                          return;
+                        }
+
+                        const numericValue = Number(rawValue);
+                        
+                        // Check using !isNaN instead of "if (numericValue)" 
+                        // This ensures that "0" and negative numbers format perfectly!
+                        if (!isNaN(numericValue) && rawValue !== '') {
+                          const formatted = formatNumber(numericValue);
                           handleItemChange(item.id, 'price', formatted);
                         }
                       }}

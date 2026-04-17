@@ -6,7 +6,7 @@ import { checkInvoiceNumber } from '@/ApiRequests/checkInvoiceNumber.js';
 export default function Header({ headerRef, client, setClient, editing }) {
     const { t } = useTranslation();
     const [invoiceNumber, setInvoiceNumber] = useState(client.invoice_number); // Default prefix for invoice numbers
-    
+
     return (        
         <div 
           ref={headerRef} 
@@ -17,7 +17,7 @@ export default function Header({ headerRef, client, setClient, editing }) {
             <h1 className="text-4xl font-bold text-gray-900">{t("invoice")}</h1>
             <div className="flex flex-row items-center">
               <p className="text-sm text-gray-500 whitespace-nowrap">{t("invoice_number")}&nbsp;</p>
-              {!editing ? (
+              {/* {!editing ? (
                               <input
                 type="text"
                 name="invoice_number"
@@ -65,7 +65,8 @@ export default function Header({ headerRef, client, setClient, editing }) {
               />
               ):(
                 <p className="text-sm text-gray-500 px-1 py-0.5">{client.invoice_number}</p>
-              )}
+                )} */}
+              <p className="text-sm text-gray-500 px-1 py-0.5">{client.invoice_number}</p>
             </div>
             <p className="text-sm text-gray-500">{t("date")}: {client.invoice_date}</p>
           </div>
