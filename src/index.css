@@ -14,10 +14,10 @@
 #root{
   background-color: var(--color-luxury-brown) !important;
 }
-/* body  *{
-    border: 1px dotted red;
+body  *{
+    /* border: 1px dotted red; */
 }
-  */
+ 
 
 /* AUTOFILL OVERRIDE 
 Placed at the bottom and outside of any @layer to ensure maximum specificity 

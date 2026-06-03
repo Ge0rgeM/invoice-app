@@ -11,10 +11,9 @@ import { SavingWindow } from '@/Components/SavingWindow';
 import LoadingWindow from '@/Components/LoadingWindow';
 import ErrorWindow from '@/Components/ErrorWindow';
 
-export default function SearchInvoice() {
+export default function SearchInvoice({showSaveModal, setShowSaveModal, setHasUnsavedChanges, pendingNavigation, setPendingNavigation}) {
   const { t } = useTranslation(); 
   const [invoiceList, setInvoiceList] = useState([]);  // State to trigger re-render after loading invoice
-  const [showSaveModal, setShowSaveModal] = useState(false);
   const [initialClient, setInitialClient] = useState({
       name: '',
       address: '',
@@ -84,6 +83,10 @@ export default function SearchInvoice() {
       setItems(JSON.parse(invoiceData.full_invoice_data));
     }
 
+    useEffect(() => {
+      setHasUnsavedChanges(isDirty);
+    }, [isDirty, setHasUnsavedChanges]);
+
   return (
     <div className="w-full bg-luxury-brown p-8 flex flex-col items-center">
       {showSaveModal && (
@@ -98,9 +101,13 @@ export default function SearchInvoice() {
           setSearchTerm={setSearchTerm}
           setIsDropdownOpen={setIsDropdownOpen}
           setLoading={setLoading}
+          setLoadingText={setLoadingText}
           setErrorMessage={setErrorMessage}
           pendingInvoiceToLoad={pendingInvoiceToLoad}
           setPendingInvoiceToLoad={setPendingInvoiceToLoad}
+          pendingNavigation={pendingNavigation}
+          setPendingNavigation={setPendingNavigation}
+          t={t}
         />
       )}
         <div className='w-[70%]'>

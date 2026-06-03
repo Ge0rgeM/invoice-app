@@ -59,11 +59,13 @@ const resources = {
         "save": "შენახვა",
         "saving": "მიმდინარეობს შენახვა...",
         "loading": "მიმდინარეობს ჩატვირთვა...",
-        "page_refresh": "გადატვირთვა"
+        "page_refresh": "გადატვირთვა",
+        "delete": "წაშლა",
       },
       // Page Navigations
       "create_invoice": "ინვოისის შექმნა",
       "load_invoice": "ინვოისის არჩევა",
+      "load_database": "ინვოისების ბაზა",
       //DownloadInvoice translations
       "download_pdf": "PDF-ის ჩამოტვირთვა",
       "downloading...": "ჩამოტვირთვა...",

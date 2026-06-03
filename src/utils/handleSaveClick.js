@@ -31,21 +31,26 @@ export const handleSaveClick = async (
         await sendInvoiceToServer(dataToSend);
         
         // 2. If we reach this line, the save was 100% successful.
-        setInitialClient(client);
-        setInitialItems(items);
-        
+        if(setInitialClient && setInitialItems) {
+            setInitialClient(client);
+            setInitialItems(items);
+        }
         // 3. Refresh the invoice list (If this fails, it also jumps to 'catch')
-        const updatedInvoices = await fetchAllInvoices();
-        setInvoiceList(updatedInvoices);
+        if(setInvoiceList) {
+            const updatedInvoices = await fetchAllInvoices(setLoadingWindow);
+            setInvoiceList(updatedInvoices);
+        }
 
     } catch (error) {
         // Intercept browser network errors
+        console.log(error)
         let errorCode = error.message;
         if (errorCode === "Failed to fetch") {
             errorCode = "failed_to_fetch";
         }
 
         // Trigger your global error window!
+        console.log(t(`errors.${errorCode}`))
         setErrorMessage(t(`errors.${errorCode}`));
         
         return "error"; // Don't proceed if save failed

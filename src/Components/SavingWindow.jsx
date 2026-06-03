@@ -1,7 +1,27 @@
+import { useNavigate } from 'react-router-dom';
 import { handleSaveClick } from '@/utils/handleSaveClick.js';
 import { handleSelectInvoice } from '@/ApiRequests/handleSelectInvoice.js';
 
-export function SavingWindow({ setShowSaveModal, client, items, setInitialClient, setInitialItems, setInvoiceList, onLoadInvoice, setSearchTerm, setIsDropdownOpen, setLoading, setError, pendingInvoiceToLoad, setPendingInvoiceToLoad }) {
+export function SavingWindow({ 
+    setShowSaveModal, 
+    client, 
+    items, 
+    setInitialClient, 
+    setInitialItems, 
+    setInvoiceList, 
+    onLoadInvoice, 
+    setSearchTerm, 
+    setIsDropdownOpen, 
+    setLoading, 
+    setLoadingText,
+    setErrorMessage, 
+    pendingInvoiceToLoad, 
+    setPendingInvoiceToLoad,
+    pendingNavigation,
+    setPendingNavigation,
+    t
+ }) {
+    const navigate = useNavigate();
     return (
         <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
             <div className="bg-white p-6 rounded-xl shadow-2xl max-w-md w-full border border-gray-200 transform transition-all">
@@ -16,7 +36,11 @@ export function SavingWindow({ setShowSaveModal, client, items, setInitialClient
                 
                 {/* Choice 1: Cancel (Stay on the page) */}
                 <button 
-                    onClick={() => { setShowSaveModal(false) }} 
+                    onClick={() => {
+                        setShowSaveModal(false);
+                        setPendingNavigation(null);
+                        setPendingInvoiceToLoad(null);
+                    }} 
                     className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
                 >
                 Cancel
@@ -26,7 +50,20 @@ export function SavingWindow({ setShowSaveModal, client, items, setInitialClient
                 <button 
                     onClick={() => {
                         setShowSaveModal(false);
-                        handleSelectInvoice(pendingInvoiceToLoad, setSearchTerm, setIsDropdownOpen, setLoading, setError, onLoadInvoice);
+                        if (pendingInvoiceToLoad) {
+                            handleSelectInvoice(
+                                pendingInvoiceToLoad, 
+                                setSearchTerm, 
+                                setIsDropdownOpen, 
+                                setLoading, 
+                                setErrorMessage, 
+                                onLoadInvoice
+                            );
+                            setPendingInvoiceToLoad(null);
+                        } else if (pendingNavigation) {
+                            navigate(pendingNavigation);
+                            setPendingNavigation(null);
+                        }
                     }} 
                     className="px-4 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg font-medium transition-colors"
                     >
@@ -36,11 +73,33 @@ export function SavingWindow({ setShowSaveModal, client, items, setInitialClient
                 {/* Choice 3: Save (Run your save function, then leave) */}
                 <button 
                     onClick={async () => {
-                        const saveResult = await handleSaveClick(client, items, setInitialClient, setInitialItems, setInvoiceList);
+                        const saveResult = await handleSaveClick(
+                            client, 
+                            items, 
+                            setInitialClient, 
+                            setInitialItems, 
+                            setInvoiceList,
+                            setErrorMessage,
+                            setLoading,
+                            setLoadingText,
+                            t
+                        );
                         setShowSaveModal(false);
-                        if (pendingInvoiceToLoad && saveResult !== "error") {
-                            handleSelectInvoice(pendingInvoiceToLoad, setSearchTerm, setIsDropdownOpen, setLoading, setError, onLoadInvoice);
-                            setPendingInvoiceToLoad(null); // Clear the memory
+                        if (saveResult !== "error") {
+                            if (pendingInvoiceToLoad) {
+                                handleSelectInvoice(
+                                    pendingInvoiceToLoad, 
+                                    setSearchTerm, 
+                                    setIsDropdownOpen, 
+                                    setLoading, 
+                                    setErrorMessage, 
+                                    onLoadInvoice
+                                );
+                                setPendingInvoiceToLoad(null); // Clear the memory
+                            } else if (pendingNavigation) {
+                                navigate(pendingNavigation);
+                                setPendingNavigation(null);
+                            }
                         }
                     }} 
                     className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium shadow-sm transition-colors"

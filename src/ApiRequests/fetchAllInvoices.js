@@ -1,4 +1,4 @@
-export const fetchAllInvoices = async (setLoading) => {
+export const fetchAllInvoices = async (setLoading = () => {}) => {
     setLoading(true)
     // 1. Fetch the data (No try/catch wrapper!)
     const response = await fetch('http://localhost:8000/getAllInvoices.php');

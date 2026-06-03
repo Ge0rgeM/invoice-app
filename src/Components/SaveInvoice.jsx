@@ -1,5 +1,15 @@
 import { handleSaveClick } from '@/utils/handleSaveClick.js';
-export default function SaveInvoice({ client, items, setInvoiceList, setInitialClient, setInitialItems, setErrorMessage, setLoadingWindow, setLoadingText, t }) {
+export default function SaveInvoice({ 
+    client, 
+    items, 
+    setInvoiceList, 
+    setInitialClient, 
+    setInitialItems, 
+    setErrorMessage, 
+    setLoadingWindow, 
+    setLoadingText, 
+    t 
+}) {
     return (
         <button 
             onClick ={() => { handleSaveClick(
