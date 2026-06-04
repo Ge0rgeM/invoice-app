@@ -6,3 +6,5 @@ export function formatNumber(rawValue) {
       maximumFractionDigits: 2
     });
 }
+
+console.log("formated",formatNumber("23123.00"), typeof formatNumber("23123.00")); // Output: "23,123.00"

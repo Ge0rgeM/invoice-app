@@ -61,6 +61,7 @@ const resources = {
         "loading": "მიმდინარეობს ჩატვირთვა...",
         "page_refresh": "გადატვირთვა",
         "delete": "წაშლა",
+        "recover": "აღდგენა",
       },
       // Page Navigations
       "create_invoice": "ინვოისის შექმნა",
