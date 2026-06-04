@@ -13,13 +13,12 @@ export const handleSelectInvoice = async (invoiceToLoad, setSearchTerm, setIsDro
         const parsedReactState = JSON.parse(JSON.stringify(result.data));
         onLoadInvoice(parsedReactState); // Send it up to App.jsx to populate the form
       } else {
-        throw new Error(result.error_code)
         setErrorMessage(result.message || "Could not load full invoice details.");
+        throw new Error(result.error_code)
       }
     } catch (err) {
-      throw new Error(err.message)
       setErrorMessage("Failed to connect to the database.");
-      alert(err);
+      throw new Error(err.message)
     } finally {
       setSearchTerm('');
       setLoading(false);

@@ -7,9 +7,13 @@ try {
     $currentYear = date("Y");
     $prefix = "ROS-" . $currentYear . "-";
     
-    $sql = "SELECT invoice_number FROM saved_invoices 
-            WHERE invoice_number LIKE '$prefix%' 
-            ORDER BY invoice_number DESC LIMIT 1";
+    $sql = "SELECT invoice_number FROM (
+                SELECT invoice_number FROM saved_invoices WHERE invoice_number LIKE '$prefix%'
+                UNION ALL
+                SELECT invoice_number FROM deleted_invoices WHERE invoice_number LIKE '$prefix%'
+            ) AS combined_invoices
+            ORDER BY invoice_number DESC 
+            LIMIT 1";
             
     $result = $pdo->query($sql);
     if ($result && $result->rowCount() > 0) {

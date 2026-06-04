@@ -6,6 +6,7 @@ import LoadingWindow from '@/Components/LoadingWindow';
 import InvoicesList from '@/Components/InvoicesList';
 import ErrorWindow from '@/Components/ErrorWindow';
 import { useTranslation } from "react-i18next";
+import handleDeleteInvoiceClick from '@/ApiRequests/moveInvoiceToDeleteTable.js';
 
 export default function Database() {
     const { t } = useTranslation(); 
@@ -29,14 +30,6 @@ export default function Database() {
         loadInvoices();
     }, [t]);
 
-    const handleDeleteInvoiceClick = async (invoice) => {
-        //წაშალოს ინვოისი ან წაშლილებში გადაიტანოს, ამისთვის უნდა გავაკეთოთ ახალი API მოთხოვნა და ახალი ფუნქცია handleDeleteInvoice
-        console.log("Selected invoice for deletion:", invoice);
-        // აქ უნდა იყოს API მოთხოვნა ინვოისის წაშლისთვის, შემდეგ კი ლისტის განახლება
-        // await handleDeleteInvoice(invoice.id);
-        // setInvoices(prev => prev.filter(inv => inv.id !== invoice.id));
-    };
-
     return (
         <div className="w-full min-h-screen bg-luxury-brown flex flex-col items-center py-8">
             {loading && <LoadingWindow text={loadingText} />}
@@ -47,9 +40,14 @@ export default function Database() {
             />
             <InvoicesList 
                 invoices={invoices}
+                setInvoices={setInvoices}
                 onSelectInvoice={handleDeleteInvoiceClick}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                setLoading={setLoading}
+                setLoadingText={setLoadingText}
+                setErrorMessage={setErrorMessage}
+                t={t}
             />
         </div>
     );  

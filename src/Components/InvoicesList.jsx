@@ -1,10 +1,19 @@
-import { useTranslation } from "react-i18next";
 import { formatNumber } from '@/utils/formatNumber.js';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
-export default function InvoicesList({ invoices, onSelectInvoice, searchTerm, setSearchTerm }) {
-    const { t } = useTranslation();
-
+export default function InvoicesList({ 
+    invoices, 
+    setInvoices,
+    onSelectInvoice, 
+    searchTerm, 
+    setSearchTerm,
+    setLoading,
+    setLoadingText,
+    setErrorMessage,
+    t
+}) {
+    const [activeTab, setActiveTab] = useState('active'); // Add state for active tab
+    const [result, setResult] = useState(null); // Add state to track the result of delete operation
     // Filter invoices based on search term
     const filteredInvoices = useMemo(() => {
         if (!searchTerm.trim()) {
@@ -34,10 +43,10 @@ export default function InvoicesList({ invoices, onSelectInvoice, searchTerm, se
                 <p className="text-gray-300 text-lg">{t("no_invoices_found")}</p>
             </div>
         );
-    }
-
+    }   
+    console.log(result)
     return (
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-4xl">  
             {/* Header */}
             <div className="mb-6">
                 <h2 className="text-2xl font-bold text-white mb-4">
@@ -65,6 +74,20 @@ export default function InvoicesList({ invoices, onSelectInvoice, searchTerm, se
             {/* Invoices Table */}
             {filteredInvoices.length > 0 && (
                 <div className="overflow-x-auto rounded-lg shadow-lg">
+                    <div className="bg-gray-700 text-white w-full flex justify-between">
+                        <div
+                            className={`w-1/2 cursor-pointer text-center p-2 font-semibold rounded-tr-lg transition duration-300 ${activeTab === 'active' ? 'bg-gray-800 text-white' : 'hover:bg-gray-600 '}`}
+                            onClick={() => setActiveTab('active')}
+                        >
+                            Active
+                        </div>
+                        <div
+                            className={`w-1/2 cursor-pointer text-center p-2 font-semibold rounded-tl-lg transition duration-300 ${activeTab === 'deleted' ? 'bg-gray-800 text-white' : 'hover:bg-gray-600'}`}
+                            onClick={() => setActiveTab('deleted')}
+                        >
+                            Deleted
+                        </div>
+                    </div>
                     <table className="w-full bg-white">
                         <thead>
                             <tr className="bg-gray-800 text-white">
@@ -106,7 +129,17 @@ export default function InvoicesList({ invoices, onSelectInvoice, searchTerm, se
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <button
-                                                onClick={() => onSelectInvoice && onSelectInvoice(invoice)}
+                                                onClick={async () => {
+                                                    const deleteResult = await onSelectInvoice(
+                                                        invoice.invoice_number, 
+                                                        setLoading, 
+                                                        setLoadingText, 
+                                                        setErrorMessage
+                                                    );
+                                                    console.log("Delete result: ", deleteResult);
+                                                    setResult(deleteResult);
+                                                    deleteResult === "success" ? setInvoices(prev => prev.filter(inv => inv.invoice_number !== invoice.invoice_number)) : null;
+                                                }}
                                                 className="px-4 py-2 bg-luxury-button text-white rounded hover:bg-luxury-button-hovered transition-colors font-semibold text-sm cursor-pointer"
                                             >
                                                 {t("generic.delete")}
